@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Plainly — your letters, explained on your device</title>
+    <meta
+      name="description"
+      content="Plainly explains contracts, letters and notices in plain language. Short documents are explained on your device by Gemini Nano — nothing leaves it. Long ones fall back to Gemini in the cloud."
+    />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">◐</span>
+        <div>
+          <strong>Plainly</strong>
+          <span class="tagline">Your letters, explained — on your device when it matters.</span>
+        </div>
+      </div>
+      <div class="status" id="status-pill" title="On-device model status">
+        Checking device AI…
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Paste a letter. Get it in plain language.</h1>
+        <p>
+          Rental agreements, school letters, insurance decisions, job offers — Plainly
+          explains them so anyone can understand. <strong>Short documents never leave
+          your device</strong>: Gemini Nano explains them right here in Chrome.
+          Long documents go to Gemini in the cloud, and Plainly always tells you
+          which engine did the work.
+        </p>
+        <div class="badges">
+          <span class="badge">🔒 On-device = 0 bytes sent to the cloud</span>
+          <span class="badge">☁️ Cloud fallback for long documents</span>
+          <span class="badge">⚡ Free to run, works offline on-device</span>
+        </div>
+      </section>
+
+      <section class="card" id="input-card">
+        <label for="doc-input">Your document</label>
+        <textarea
+          id="doc-input"
+          rows="9"
+          placeholder="Paste a letter, contract or notice here…"
+        ></textarea>
+        <div class="input-row">
+          <span id="char-count">0 characters</span>
+          <span id="route-preview" class="route-preview"></span>
+        </div>
+
+        <div class="file-row">
+          <label class="file-btn">
+            📄 Upload .txt / .md
+            <input type="file" id="file-text" accept=".txt,.md,text/plain,text/markdown" hidden />
+          </label>
+          <label class="file-btn">
+            🖼️ Upload a photo (JPG / PNG)
+            <input type="file" id="file-image" accept="image/jpeg,image/png" hidden />
+          </label>
+          <button type="button" id="clear-btn" class="ghost-btn">Clear</button>
+        </div>
+        <div id="image-preview" class="image-preview" hidden>
+          <img id="image-preview-img" alt="Uploaded document photo" />
+          <button type="button" id="remove-image-btn" class="ghost-btn">Remove photo</button>
+        </div>
+
+        <p class="samples-label">Try one — no typing needed:</p>
+        <div class="samples" id="samples"></div>
+
+        <fieldset class="tasks">
+          <legend>What do you need?</legend>
+          <label><input type="radio" name="task" value="explain" checked /> Explain simply</label>
+          <label><input type="radio" name="task" value="keypoints" /> Key points</label>
+          <label><input type="radio" name="task" value="actions" /> Action items</label>
+          <label><input type="radio" name="task" value="watchouts" /> Watch out for</label>
+        </fieldset>
+
+        <fieldset class="tasks">
+          <legend>Where should it run?</legend>
+          <label><input type="radio" name="mode" value="auto" checked /> Auto — privacy first</label>
+          <label><input type="radio" name="mode" value="device" /> On-device only</label>
+          <label><input type="radio" name="mode" value="cloud" /> Cloud only</label>
+        </fieldset>
+
+        <button type="button" id="explain-btn" class="primary-btn">Explain it →</button>
+        <p id="error-box" class="error" hidden></p>
+      </section>
+
+      <section class="card" id="result-card" hidden>
+        <div class="result-head">
+          <h2>Plain-language answer</h2>
+          <span id="engine-badge" class="engine-badge"></span>
+        </div>
+        <p id="route-reason" class="route-reason"></p>
+        <p id="latency-line" class="latency"></p>
+        <div id="demo-note" class="demo-note" hidden>
+          Demo mode — Firebase is not connected yet, so this is a placeholder
+          answer. Connect Firebase (see README) for real AI explanations.
+        </div>
+        <h3>Summary</h3>
+        <p id="result-summary"></p>
+        <h3>Key points</h3>
+        <ul id="result-keypoints"></ul>
+        <h3>Action items</h3>
+        <ul id="result-actions"></ul>
+        <h3>Watch out for</h3>
+        <ul id="result-watchouts"></ul>
+        <div class="result-actions">
+          <button type="button" id="save-btn" class="primary-btn">Save to my library</button>
+          <button type="button" id="copy-btn" class="ghost-btn">Copy answer</button>
+        </div>
+        <p id="save-status" class="save-status"></p>
+      </section>
+
+      <section class="card" id="library-card">
+        <h2>My library</h2>
+        <p class="muted">
+          Saved explanations live in Firestore under your anonymous account.
+          Only you can see them.
+        </p>
+        <ul id="library-list" class="library-list"></ul>
+        <p id="library-empty" class="muted">Nothing saved yet.</p>
+      </section>
+
+      <section class="card how">
+        <h2>How the hybrid works</h2>
+        <ol class="steps">
+          <li>
+            <strong>Short document?</strong> Gemini Nano explains it on your device.
+            Nothing is uploaded — your letter stays private, it costs nothing,
+            and it even works offline.
+          </li>
+          <li>
+            <strong>Long document?</strong> Plainly sends it to Gemini in the cloud
+            and says so, with the reason. Nano's context window is small; the
+            cloud handles the big ones.
+          </li>
+          <li>
+            <strong>Either way</strong>, the answer is labelled with the engine that
+            actually ran it — Firebase AI Logic reports it for every request.
+          </li>
+        </ol>
+        <p class="muted">
+          Built with Firebase AI Logic hybrid inference (Gemini Nano on-device +
+          Gemini in the cloud), Firestore, Anonymous Auth, Remote Config and App Check.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      Plainly — an entry for Google's #BuildHybridAI 2026 hackathon.
+      <a href="https://github.com/kabla1696-ctrl/plainly">Source on GitHub</a>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
